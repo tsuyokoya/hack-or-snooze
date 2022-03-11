@@ -21,3 +21,10 @@ nav {
   margin-left: auto;
   text-align: right;
 }
+
+#nav-submit,
+#nav-favorites,
+#nav-my-stories {
+  border-right: 2px solid black;
+  padding-right: 5px;
+}

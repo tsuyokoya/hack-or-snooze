@@ -37,6 +37,16 @@
   display: block;
 }
 
-.fa-heart {
+.fa-heart,
+.fa-trash {
   cursor: pointer;
+}
+
+.fas.fa-heart {
+  color: red;
+}
+
+.fa-heart:hover,
+.fa-trash:hover {
+  color: red;
 }

@@ -1,5 +1,9 @@
 /* General typography */
 
+html {
+  font-size: 1.5em;
+}
+
 body {
   font-family: Arimo, sans-serif;
   margin: 8px 7.5vw;
@@ -29,7 +33,6 @@ a:hover {
   text-decoration: underline;
 }
 
-
 /* Site layout */
 
 /* This is the basic box that the main part of the page goes into */
@@ -43,7 +46,6 @@ a:hover {
 .hidden {
   display: none;
 }
-
 
 /* Forms */
 
@@ -106,7 +108,6 @@ form > hr {
   width: 70px;
 }
 
-
 /* responsive queries for tightening things up for mobile. */
 
 @media screen and (max-width: 576px) {
@@ -117,7 +118,7 @@ form > hr {
 
 @media screen and (min-width: 992px) {
   body {
-    max-width: 900px;
+    max-width: 80%;
     margin: 8px auto;
   }
 }

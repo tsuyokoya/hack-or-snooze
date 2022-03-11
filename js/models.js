@@ -57,13 +57,9 @@ class StoryList {
       method: "GET",
     });
 
-    console.log(response.data);
-
     // turn plain old story objects from API into instances of Story class
     const stories = response.data.stories.map((story) => new Story(story));
 
-    console.log(stories);
-    console.log(new StoryList(stories));
     // build an instance of our own class using the new array of stories
     return new StoryList(stories);
   }
@@ -82,10 +78,20 @@ class StoryList {
       method: "POST",
       data: { token: user.loginToken, story: newStory },
     });
-
-    console.log(response);
-    console.log(new Story(response.data.story));
     return new Story(response.data.story);
+  }
+
+  async removeStory(user, storyId) {
+    await axios({
+      url: `${BASE_URL}/stories/${storyId}`,
+      method: "DELETE",
+      data: { token: user.loginToken },
+    });
+
+    // filter out deleted story from stories, ownStories, and favorites
+    this.stories = this.stories.filter((story) => story.storyId !== storyId);
+    user.ownStories = user.ownStories.filter((s) => s.storyId !== storyId);
+    user.favorites = user.favorites.filter((s) => s.storyId !== storyId);
   }
 }
 
@@ -198,5 +204,37 @@ class User {
       console.error("loginViaStoredCredentials failed", err);
       return null;
     }
+  }
+
+  // Add story to the user's favorites list & update API
+  async addFavorite(story) {
+    this.favorites.push(story);
+    await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      method: "POST",
+      data: { token: currentUser.loginToken },
+    });
+  }
+
+  // Remove story from the user's favorites list & update API
+  async removeFavorite(story) {
+    // Filters out the story to be removed
+    this.favorites = this.favorites.filter(
+      (deletedStory) => deletedStory.storyId !== story.storyId
+    );
+    await axios({
+      url: `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`,
+      method: "DELETE",
+      data: { token: currentUser.loginToken },
+    });
+  }
+
+  isUserFavorite(story) {
+    for (const favorite of this.favorites) {
+      if (favorite.storyId === story.storyId) {
+        return true;
+      }
+    }
+    return false;
   }
 }

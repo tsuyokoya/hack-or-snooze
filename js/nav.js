@@ -35,12 +35,12 @@ function updateNavOnLogin() {
   $navUserProfile.text(`${currentUser.username}`).show();
 }
 
-/** Show post submit form on click on "submit" */
+/** Show post submit form on click of "Submit" */
 
 function navSubmitClick(evt) {
   console.debug("navSubmitClick", evt);
   $navSubmitClasses.add("visible");
-  // hidePageComponents();
+  hidePageComponents();
   $submitForm.show();
 }
 
@@ -48,15 +48,29 @@ function navSubmitClick(evt) {
  *  If it is, remove "visible" class and hide
  *  If not, show submit form
  */
-$navSubmit.on("click", () => {
-  if ($navSubmitClasses.contains("visible")) {
-    navSubmitRemove();
-  } else {
-    navSubmitClick();
-  }
+$navSubmit.on("click", function () {
+  navSubmitClick();
 });
 
-function navSubmitRemove() {
-  $navSubmitClasses.remove("visible");
-  $submitForm.hide(500);
+/** Show favorites list on click of "Favorites" */
+
+function navFavoritesClick(evt) {
+  console.debug("navFavoritesClick", evt);
+  hidePageComponents();
+  putFavoritesOnPage();
+  $favoritedStories.show();
 }
+
+$navFavorites.on("click", navFavoritesClick);
+
+/** Show My Stories on click of "My Stories" */
+
+function navMyStories(evt) {
+  console.debug("navMyStories", evt);
+
+  hidePageComponents();
+  putUserStoriesOnPage();
+  $ownStories.show();
+}
+
+$body.on("click", "#nav-my-stories", navMyStories);
